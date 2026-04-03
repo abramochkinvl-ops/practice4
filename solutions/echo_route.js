@@ -1,36 +1,16 @@
-const http = require('http');
+const express = require('express');
+const app = express();
+const port = process.argv[2] || 3000;
 
-const server = http.createServer((req, res) => {
-  if (req.url === '/echo') {
-    // Всі методи /echo починаємо з 200 та JSON
-    res.writeHead(200, { 'Content-Type': 'application/json' });
+app.use(express.json());
 
-    if (req.method === 'POST') {
-      let body = '';
-      req.on('data', chunk => body += chunk);
-      req.on('end', () => {
-        try {
-          const data = JSON.parse(body);
-          res.end(JSON.stringify(data));
-        } catch {
-          res.end(JSON.stringify({}));
-        }
-      });
-    } else if (req.method === 'GET') {
-      // Повертаємо пустий JSON
-      res.end(JSON.stringify({}));
-    } else {
-      // Інші методи
-      res.writeHead(405, { 'Content-Type': 'text/plain' });
-      res.end('Method Not Allowed');
-    }
-
-  } else {
-    // Інші шляхи
-    res.writeHead(404, { 'Content-Type': 'text/plain' });
-    res.end('Not Found');
-  }
+app.get('/echo', (req, res) => {
+  res.status(200).json({ msg: "hello" });
 });
 
-const PORT = process.argv[2] || 3000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.post('/echo', (req, res) => {
+  const { message } = req.body;
+  res.status(200).json({ message });
+});
+
+app.listen(port, () => console.log(`Server running on port ${port}`));
