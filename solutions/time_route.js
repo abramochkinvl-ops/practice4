@@ -4,7 +4,7 @@ const server = http.createServer((req, res) => {
   if (req.method === 'GET' && req.url === '/time') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     const currentTime = new Date().toISOString();
-    res.end(JSON.stringify({ time: currentTime }));
+    res.end(JSON.stringify({ now: currentTime }));
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
