@@ -2,6 +2,7 @@ const http = require('http');
 
 const server = http.createServer((req, res) => {
   if (req.url === '/echo') {
+    // Всі методи /echo починаємо з 200 та JSON
     res.writeHead(200, { 'Content-Type': 'application/json' });
 
     if (req.method === 'POST') {
@@ -16,7 +17,7 @@ const server = http.createServer((req, res) => {
         }
       });
     } else if (req.method === 'GET') {
-      // Для GET повертаємо пустий JSON
+      // Повертаємо пустий JSON
       res.end(JSON.stringify({}));
     } else {
       // Інші методи
@@ -25,6 +26,7 @@ const server = http.createServer((req, res) => {
     }
 
   } else {
+    // Інші шляхи
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
   }
